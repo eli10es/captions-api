@@ -43,6 +43,7 @@
     <orderEntry type="library" scope="PROVIDED" name="loofah (v2.25.1, Remote: ruby-4.0.5-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.9.0, Remote: ruby-4.0.5-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="marcel (v1.2.1, Remote: ruby-4.0.5-p0) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mini_magick (v5.3.1, Remote: ruby-4.0.5-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_mime (v1.1.5, Remote: ruby-4.0.5-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="minitest (v6.0.0, Remote: ruby-4.0.5-p0) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-imap (v0.6.2, Remote: ruby-4.0.5-p0) [gem]" level="application" />
