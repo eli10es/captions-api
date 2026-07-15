@@ -9,7 +9,7 @@ RSpec.describe 'Captioner' do
     it 'adds text to an image' do
       allow(SecureRandom).to receive(:uuid).and_return('random_uuid')
       result = captioner.caption('random_uuid', 'random-text')
-      expect(result).to eq('random_uuid.jpg')
+      expect(result).to eq('random_uuid')
     end
   end
 end

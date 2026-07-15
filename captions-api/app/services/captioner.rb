@@ -13,7 +13,6 @@ class Captioner
         c.font 'Helvetica'
         c.pointsize '60'
       end
-      image_name = "#{SecureRandom.uuid}.jpg"
       image.write("./public/#{image_name}")
     end
     image_name

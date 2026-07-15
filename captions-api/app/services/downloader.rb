@@ -6,10 +6,11 @@ class Downloader
   def download(image_link)
     result = URI.open(image_link)
     imageInfo = result.read
-    File.open("./tmp/images/#{result.base_uri.path.split('/').last}.jpg", 'wb') do |local_file|
+    image_name = "#{SecureRandom.uuid}.jpg"
+    File.open("./tmp/images/#{image_name}", 'wb') do |local_file|
       local_file.write(imageInfo)
     end
-    result.base_uri.path.split('/').last
+    image_name
   end
 end
 
