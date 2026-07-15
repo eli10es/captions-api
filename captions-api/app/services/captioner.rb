@@ -13,8 +13,9 @@ class Captioner
         c.font 'Helvetica'
         c.pointsize '60'
       end
-      image.write("./public/#{image_name}-modified.jpg")
+      image_name = "#{SecureRandom.uuid}.jpg"
+      image.write("./public/#{image_name}")
     end
-    "#{image_name}-modified.jpg"
+    image_name
   end
 end
