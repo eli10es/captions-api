@@ -13,7 +13,7 @@ class Captioner
         c.font 'Helvetica'
         c.pointsize '60'
       end
-      image.write("./public/#{image_name}")
+      image.write("./public/#{image_name}.jpg")
     end
     image_name
   end
