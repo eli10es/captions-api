@@ -28,6 +28,52 @@ RSpec.describe "Captions", type: :request do
       get caption_path(id: 67)
       expect(response).to have_http_status(:not_found)
     end
+  end
 
+  describe "POST /captions" do
+    it "creates a new caption" do
+      allow(Generator).to receive_message_chain(:new, :generate).and_return("https://server/public/random_uuid.jpg")
+      allow(Downloader).to receive_message_chain(:new, :download).and_return("https://tmp/images/random_uuid.jpg")
+      post captions_path, params: { caption:{  url: "https://tmp/images/random_uuid.jpg", text: "random_text" }}
+      expect(response).to have_http_status(:created)
+    end
+
+    it "returns an error when url is missing" do
+      post captions_path, params: { text: "random_text" }
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "returns an error when text is missing" do
+      post captions_path, params: { url: "https://example.com/random_image.jpg" }
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'returns unprocessable content when text is too long' do\
+        allow(Generator).to receive_message_chain(:new, :generate).and_return("https://server/public/random_uuid.jpg")
+        allow(Downloader).to receive_message_chain(:new, :download).and_return("https://tmp/images/random_uuid.jpg")
+        post captions_path, params: { caption:{  url: "https://tmp/images/random_uuid.jpg", text: "random_text" * 200 }}
+        expect(response).to have_http_status(:unprocessable_content)
+    end
+
+    it 'returns unprocessable content when text is empty' do
+      allow(Generator).to receive_message_chain(:new, :generate).and_return("https://server/public/random_uuid.jpg")
+      allow(Downloader).to receive_message_chain(:new, :download).and_return("https://tmp/images/random_uuid.jpg")
+      post captions_path, params: { caption:{  url: "https://tmp/images/random_uuid.jpg", text: "" }}
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
+    it 'returns unprocessable content when url is empty' do
+      allow(Generator).to receive_message_chain(:new, :generate).and_return("https://server/public/random_uuid.jpg")
+      allow(Downloader).to receive_message_chain(:new, :download).and_return("https://tmp/images/random_uuid.jpg")
+      post captions_path, params: { caption:{  url: "", text: "random_text" }}
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
+    it 'returns unprocessable content when url is invalid' do
+      allow(Generator).to receive_message_chain(:new, :generate).and_return("https://server/public/random_uuid.jpg")
+      allow(Downloader).to receive_message_chain(:new, :download).and_return("https://tmp/images/random_uuid.jpg")
+      post captions_path, params: { caption:{  url: "https://tmp/images/random_uuid.jpg", text: "random_text" }}
+      expect(response).to have_http_status(:created)
+    end
   end
 end
