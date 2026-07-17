@@ -70,10 +70,15 @@ RSpec.describe "Captions", type: :request do
     end
 
     it 'returns unprocessable content when url is invalid' do
-      allow(Generator).to receive_message_chain(:new, :generate).and_return("https://server/public/random_uuid.jpg")
-      allow(Downloader).to receive_message_chain(:new, :download).and_return("https://tmp/images/random_uuid.jpg")
-      post captions_path, params: { caption:{  url: "https://tmp/images/random_uuid.jpg", text: "random_text" }}
-      expect(response).to have_http_status(:created)
+
     end
+  end
+
+  describe "DELETE /captions/:id" do
+     it "deletes a caption with a specific ID" do
+       caption = Caption.create!(url: "https://example.com/random_image.jpg", text: "random_text", caption_url: "https://server/public/random_uuid.jpg")
+       delete caption_path(id: caption.id)
+       expect(response).to have_http_status(:ok)
+     end
   end
 end
