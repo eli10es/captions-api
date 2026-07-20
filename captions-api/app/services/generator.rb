@@ -12,4 +12,3 @@ class Generator
     "http://localhost:3000/public/#{new_name}"
   end
 end
-

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'open-uri'
+require "open-uri"
 
 MAX_SIZE = 5 * 1024 * 1024
 
@@ -16,11 +16,9 @@ class Downloader
       return nil
     end
     image_name = "#{SecureRandom.uuid}.jpg"
-    File.open("./tmp/images/#{image_name}", 'wb') do |local_file|
+    File.open("./tmp/images/#{image_name}", "wb") do |local_file|
       local_file.write(imageInfo)
     end
     image_name
   end
-
 end
-

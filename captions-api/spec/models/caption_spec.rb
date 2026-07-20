@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Caption do
-
   subject {
     Caption.new(
       url: "some_url.com",
