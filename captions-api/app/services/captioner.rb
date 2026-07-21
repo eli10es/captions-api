@@ -3,7 +3,7 @@
 require "mini_magick"
 class Captioner
   def caption(image_name, text)
-    File.open("./tmp/images/#{image_name}.jpg") do |image|
+    File.open("./tmp/images/#{image_name}") do |image|
       image = MiniMagick::Image.open(image)
       image.combine_options do |c|
         c.gravity "center"
@@ -13,7 +13,7 @@ class Captioner
         c.font "Helvetica"
         c.pointsize "60"
       end
-      image.write("./public/#{image_name}.jpg")
+      image.write("./public/#{image_name}")
     end
     image_name
   end
