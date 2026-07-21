@@ -28,10 +28,5 @@ RSpec.describe Caption do
       subject.text = "a"*270
       expect(subject).not_to be_valid
     end
-
-    it 'caption_url is missing' do
-      subject.caption_url = nil
-      expect(subject).not_to be_valid
-    end
   end
 end

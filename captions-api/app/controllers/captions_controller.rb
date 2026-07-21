@@ -19,9 +19,8 @@ class CaptionsController < ApplicationController
     if parsed_data.key?("errors")
       return render json: parsed_data["errors"].first, status: :bad_request
     end
-
-    result_url = Generator.new(Downloader.new, Captioner.new).generate(params[:caption][:text], params[:caption][:url])
-    caption = Caption.new(url: params[:caption][:url], text: params[:caption][:text], caption_url: result_url)
+    caption = Caption.new(url: params[:caption][:url], text: params[:caption][:text])
+    caption.caption_url = Generator.new(Downloader.new, Captioner.new).generate(params[:caption][:text], params[:caption][:url])
     caption.save!
     render json: { caption: caption_json(caption) }, status: :created
   end
