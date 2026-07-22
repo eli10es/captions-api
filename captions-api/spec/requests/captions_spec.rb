@@ -93,8 +93,11 @@ RSpec.describe "Captions", type: :request do
       expect(response).to have_http_status(:unprocessable_content)
     end
 
-    it 'returns unprocessable content when url is invalid' do
-    end
+      it 'returns unprocessable content when url is invalid' do
+        allow_any_instance_of(Downloader).to receive(:download).and_raise(Downloader::DownloadError, "could not fetch image")
+        post_caption("https://example.com/not-an-image", "random_text")
+        expect(response).to have_http_status(:unprocessable_content)
+      end
   end
 
   describe "DELETE /captions/:id" do

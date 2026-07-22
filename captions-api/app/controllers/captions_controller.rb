@@ -15,10 +15,18 @@ class CaptionsController < ApplicationController
   end
 
   def create
-    parsed_data = CaptionRequestParser.new.parse(params.to_json)
-    if parsed_data.key?("errors")
-      return render json: parsed_data["errors"].first, status: :bad_request
+    # parsed_data = CaptionRequestParser.new.parse(params.to_json)
+    # if parsed_data.key?("errors")
+    #   return render json: parsed_data["errors"].first, status: :bad_request
+    # end
+
+    validation = CaptionContract.new.call(params.to_unsafe_h)
+
+    if validation.failure?
+      return render_invalid_attributes(validation)
     end
+
+
     caption = Caption.new(url: params[:caption][:url], text: params[:caption][:text])
     raise ActiveRecord::RecordInvalid, caption unless caption.valid?
     caption.caption_url = Generator.new(Downloader.new, Captioner.new).generate(params[:caption][:text], params[:caption][:url])
@@ -52,6 +60,12 @@ class CaptionsController < ApplicationController
 
   def render_unprocessable_entity(exception)
     render_error("invalid_attributes", "Unprocessable Entity", exception.message, :unprocessable_entity)
+  end
+
+  def render_invalid_attributes(validation)
+    messages = validation.errors(full: true).map(&:text).to_sentence
+
+    render_error("missing_parameters", "Parameter is missing from the request body", messages, :bad_request)
   end
 
   def caption_json(caption)
