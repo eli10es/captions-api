@@ -3,7 +3,7 @@
 class CaptionsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
-
+  rescue_from Downloader::DownloadError, with: :render_unprocessable_entity
   def index
     captions = Caption.all
     render json: { captions: captions.map { |caption| caption_json(caption) } }
@@ -20,6 +20,7 @@ class CaptionsController < ApplicationController
       return render json: parsed_data["errors"].first, status: :bad_request
     end
     caption = Caption.new(url: params[:caption][:url], text: params[:caption][:text])
+    raise ActiveRecord::RecordInvalid, caption unless caption.valid?
     caption.caption_url = Generator.new(Downloader.new, Captioner.new).generate(params[:caption][:text], params[:caption][:url])
     caption.save!
     render json: { caption: caption_json(caption) }, status: :created
@@ -54,7 +55,6 @@ class CaptionsController < ApplicationController
   end
 
   def caption_json(caption)
-    caption.as_json(only: [:id, :url, :text, :caption_url])
+    caption.as_json(only: [ :id, :url, :text, :caption_url ])
   end
-
 end
