@@ -13,7 +13,7 @@ RSpec.describe 'Downloader' do
 
     it 'raises an error for invalid image' do
       allow(URI).to receive(:open).and_raise(OpenURI::HTTPError.new('404 Not Found', nil))
-      expect {downloader.download('https://images.unsplash.com/photo-1647549831144-09d4c521c1f1dsa')}.to raise_error(Downloader::DownloadError, "could not fetch image: 404 Not Found")
+      expect { downloader.download('https://images.unsplash.com/photo-1647549831144-09d4c521c1f1dsa') }.to raise_error(Downloader::DownloadError, "could not fetch image: 404 Not Found")
     end
   end
 end

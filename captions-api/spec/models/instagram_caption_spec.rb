@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe InstagramCaption, type: :model do
-
   describe 'validations' do
     let(:normal_caption) { InstagramCaption.new(text: 'random_text', type: 'image', url: 'https://example.com/image.jpg') }
     let(:color_caption) { InstagramCaption.new(text: 'random_text', type: 'color', color: '#FFFFFF') }
@@ -57,6 +56,5 @@ RSpec.describe InstagramCaption, type: :model do
       normal_caption.type = 'random_type'
       expect(normal_caption).not_to be_valid
     end
-
   end
 end
