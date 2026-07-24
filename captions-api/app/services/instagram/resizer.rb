@@ -1,6 +1,5 @@
 require "mini_magick"
 
-# module Instagram
 class Resizer
   SIZE = "1080x1440"
 
@@ -17,4 +16,3 @@ class Resizer
     image_name
   end
 end
-# end
